@@ -34,6 +34,17 @@ def getEmp(empId):
     usr = [ emp for emp in empDB if (emp['id'] == empId) ] 
     return jsonify({'emp':usr})
 
+@app.route('/empdb/wage/averagewage',methods=['GET'])
+def getAverageWage():
+    total_salary = sum(int(emp['salary']) for emp in empDB)
+    average_salary = total_salary / len(empDB) if len(empDB) > 0 else 0
+    return jsonify({'average_salary': average_salary})
+
+@app.route('/empdb/wage/highwage',methods=['GET'])
+def highWage():
+    max_salary = max(empDB, key=lambda x: int(x['salary']))
+    return jsonify(max_salary)
+
 
 @app.route('/empdb/employee/<empId>',methods=['PUT'])
 def updateEmp(empId):
